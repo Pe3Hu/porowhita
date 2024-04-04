@@ -26,11 +26,24 @@ func _ready() -> void:
 func init_arr() -> void:
 	arr.aspect = ["strength", "dexterity", "intellect", "will"]
 	arr.indicator = ["health"]
+	arr.region = ["ne", "se", "sw", "nw", "nesw"]
 
 
 func init_num() -> void:
 	num.index = {}
-	num.index.card = 0
+	num.index.area = 0
+	num.index.trail = 0
+	
+	num.area = {}
+	num.area.n = 16
+	num.area.col = num.area.n
+	num.area.row = num.area.n
+	num.area.r = 16
+	num.area.nesw = 8
+	
+	num.trail = {}
+	num.trail.min = 3
+	num.trail.max = 4
 	
 	num.hand = {}
 	num.hand.n = 4
@@ -44,6 +57,8 @@ func init_dict() -> void:
 	init_aspect()
 	init_season()
 	init_area()
+	init_corner()
+	init_region()
 
 
 func init_neighbor() -> void:
@@ -90,6 +105,14 @@ func init_neighbor() -> void:
 			Vector2( 0,-1)
 		]
 	]
+	
+	dict.neighbor.windrose = []
+	
+	for _i in dict.neighbor.linear2.size():
+		var direction = dict.neighbor.linear2[_i]
+		dict.neighbor.windrose.append(direction)
+		direction = dict.neighbor.diagonal[_i]
+		dict.neighbor.windrose.append(direction)
 
 
 func init_aspect() -> void:
@@ -128,6 +151,47 @@ func init_area() -> void:
 	dict.area.prior["hand"] = "available"
 
 
+func init_corner() -> void:
+	dict.order = {}
+	dict.order.pair = {}
+	dict.order.pair["even"] = "odd"
+	dict.order.pair["odd"] = "even"
+	var corners = [3,4,6]
+	dict.corner = {}
+	dict.corner.vector = {}
+	
+	for corners_ in corners:
+		dict.corner.vector[corners_] = {}
+		dict.corner.vector[corners_].even = {}
+		
+		for order_ in dict.order.pair.keys():
+			dict.corner.vector[corners_][order_] = {}
+		
+			for _i in corners_:
+				var angle = 2 * PI * _i / corners_ - PI / 2
+				
+				if order_ == "odd":
+					angle += PI/corners_
+				
+				var vertex = Vector2(1,0).rotated(angle)
+				dict.corner.vector[corners_][order_][_i] = vertex
+
+
+func init_region() -> void:
+	dict.region = {}
+	dict.region.corner = {}
+	dict.region.corner.ne = Vector2(Global.num.area.col - 1, 0)
+	dict.region.corner.se = Vector2(Global.num.area.col - 1, Global.num.area.row - 1)
+	dict.region.corner.sw = Vector2(0, Global.num.area.row - 1)
+	dict.region.corner.nw = Vector2(0, 0)
+	
+	dict.region.direction = {}
+	dict.region.direction.ne = Vector2(-1, 1)
+	dict.region.direction.se = Vector2(-1, -1)
+	dict.region.direction.sw = Vector2(1, -1)
+	dict.region.direction.nw = Vector2(1, 1)
+
+
 func init_emptyjson() -> void:
 	dict.emptyjson = {}
 	dict.emptyjson.title = {}
@@ -156,9 +220,13 @@ func init_scene() -> void:
 	scene.god = load("res://scene/1/god.tscn")
 	
 	scene.planet = load("res://scene/2/planet.tscn")
-	scene.area = load("res://scene/2/area.tscn")
+	scene.mainland = load("res://scene/2/mainland.tscn")
 	
 	scene.card = load("res://scene/3/card.tscn")
+	
+	scene.area = load("res://scene/4/area.tscn")
+	scene.trail = load("res://scene/4/trail.tscn")
+	scene.region = load("res://scene/4/region.tscn")
 
 
 func init_vec():
@@ -170,6 +238,9 @@ func init_vec():
 	vec.size.card = Vector2(vec.size.token.x * 2, vec.size.token.y * 4)
 	vec.size.bar = Vector2(128, 16)
 	vec.size.gameboard = Vector2(vec.size.token)# * 6, vec.size.token.y * 5)
+	
+	vec.size.area = Vector2(48, 48)
+	vec.size.mainland = (Vector2(Global.num.area.col, Global.num.area.row) - Vector2.ONE) * vec.size.area + Vector2.ONE * num.area.r * 2
 	
 	init_window_size()
 
@@ -196,6 +267,13 @@ func init_color():
 	color.indicator.endurance = {}
 	color.indicator.endurance.fill = Color.from_hsv(270 / h, 0.9, 0.7)
 	color.indicator.endurance.background = Color.from_hsv(270 / h, 0.5, 0.9)
+	
+	color.region = {}
+	color.region.ne = Color.from_hsv(0 / h, 0.9, 0.9)
+	color.region.se = Color.from_hsv(72 / h, 0.9, 0.9)
+	color.region.sw = Color.from_hsv(144 / h, 0.9, 0.9)
+	color.region.nw = Color.from_hsv(216 / h, 0.9, 0.9)
+	color.region.nesw = Color.from_hsv(288 / h, 0.9, 0.9)
 
 
 func init_font():

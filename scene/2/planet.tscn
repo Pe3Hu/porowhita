@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cu3uftogq5641"]
+[gd_scene load_steps=5 format=3 uid="uid://xhix36lasfwv"]
 
 [ext_resource type="Script" path="res://scene/2/planet.gd" id="1_ictb4"]
 [ext_resource type="PackedScene" uid="uid://dvdcoeutm1eo6" path="res://scene/5/moon.tscn" id="2_2t0bn"]
+[ext_resource type="PackedScene" uid="uid://cyy4x4c3v4kno" path="res://scene/2/mainland.tscn" id="2_7t4ix"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7paps"]
 
@@ -27,15 +28,23 @@ visible = false
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_7paps")
 
-[node name="VBox" type="VBoxContainer" parent="."]
+[node name="HBox" type="HBoxContainer" parent="."]
 layout_mode = 2
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="Moon" parent="VBox" instance=ExtResource("2_2t0bn")]
+[node name="Mainland" parent="HBox" instance=ExtResource("2_7t4ix")]
 layout_mode = 2
 
-[node name="HBox" type="HBoxContainer" parent="VBox"]
+[node name="VBox" type="VBoxContainer" parent="HBox"]
 layout_mode = 2
-theme_override_constants/separation = 40
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Moon" parent="HBox/VBox" instance=ExtResource("2_2t0bn")]
+layout_mode = 2
+
+[node name="HBox" type="HBoxContainer" parent="HBox/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 0
 alignment = 1

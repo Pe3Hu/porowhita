@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dtop6ce8ht5b"]
 
 [ext_resource type="Script" path="res://scene/3/gameboard.gd" id="1_8p1bi"]
-[ext_resource type="PackedScene" uid="uid://blhi7tynl43q1" path="res://scene/4/storage.tscn" id="2_x26b3"]
+[ext_resource type="PackedScene" uid="uid://blhi7tynl43q1" path="res://scene/5/storage.tscn" id="2_x26b3"]
 [ext_resource type="PackedScene" uid="uid://iu1cq1e5uc7" path="res://scene/3/cardstack.tscn" id="3_a2duu"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_io3fl"]

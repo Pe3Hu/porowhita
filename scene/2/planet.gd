@@ -2,9 +2,9 @@ extends MarginContainer
 
 
 #region var
-@onready var hbox = $VBox/HBox
-@onready var moon = $VBox/Moon
-@onready var market = $VBox/Market
+@onready var hbox = $HBox/VBox/HBox
+@onready var moon = $HBox/VBox/Moon
+@onready var mainland = $HBox/Mainland
 
 var universe = null
 var gods = []
@@ -22,8 +22,8 @@ func set_attributes(input_: Dictionary) -> void:
 func init_basic_setting() -> void:
 	var input = {}
 	input.planet = self
-	#market.set_attributes(input)
 	moon.set_attributes(input)
+	mainland.set_attributes(input)
 
 
 func add_god(god_: MarginContainer) -> void:
@@ -35,7 +35,6 @@ func add_god(god_: MarginContainer) -> void:
 	
 	gods.append(god_)
 	god_.planet = self
-	god_.gameboard.storage.market = market
 #endregion
 
 
@@ -43,10 +42,10 @@ func start_race() -> void:
 	init_gods_opponents()
 	#roll_gods_order()
 	
-	for god in gods:
-		god.gameboard.refill_hand()
+	#for god in gods:
+	#	god.gameboard.refill_hand()
 	
-	moon.follow_phase()
+	#moon.follow_phase()
 
 
 func init_gods_opponents() -> void:

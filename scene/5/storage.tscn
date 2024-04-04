@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://blhi7tynl43q1"]
 
-[ext_resource type="Script" path="res://scene/4/storage.gd" id="1_25mn1"]
+[ext_resource type="Script" path="res://scene/5/storage.gd" id="1_6jpld"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7paps"]
 
@@ -19,7 +19,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-script = ExtResource("1_25mn1")
+script = ExtResource("1_6jpld")
 
 [node name="BG" type="Panel" parent="."]
 visible = false

@@ -1,10 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://go3djoslxcbd"]
+[gd_scene load_steps=3 format=3 uid="uid://cyy4x4c3v4kno"]
 
-[ext_resource type="Script" path="res://scene/2/area.gd" id="1_5dsnu"]
+[ext_resource type="Script" path="res://scene/2/mainland.gd" id="1_o0e8a"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7paps"]
 
-[node name="Area" type="MarginContainer"]
+[node name="Mainland" type="MarginContainer"]
 custom_minimum_size = Vector2(5, 5)
 anchors_preset = 8
 anchor_left = 0.5
@@ -19,8 +19,15 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-script = ExtResource("1_5dsnu")
+script = ExtResource("1_o0e8a")
 
 [node name="BG" type="Panel" parent="."]
+visible = false
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_7paps")
+
+[node name="Trails" type="Node2D" parent="."]
+
+[node name="Areas" type="Node2D" parent="."]
+
+[node name="Regions" type="Node2D" parent="."]
