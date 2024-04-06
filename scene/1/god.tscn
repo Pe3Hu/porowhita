@@ -38,4 +38,5 @@ theme_override_constants/separation = 0
 alignment = 1
 
 [node name="Gameboard" parent="HBox/VBox" instance=ExtResource("2_xx0x2")]
+visible = false
 layout_mode = 2

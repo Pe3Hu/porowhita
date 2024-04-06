@@ -27,6 +27,7 @@ func init_arr() -> void:
 	arr.aspect = ["strength", "dexterity", "intellect", "will"]
 	arr.indicator = ["health"]
 	arr.region = ["ne", "se", "sw", "nw", "nesw"]
+	arr.terrain = ["swamp", "forest", "mountain", "plain"]
 
 
 func init_num() -> void:
@@ -50,6 +51,10 @@ func init_num() -> void:
 	
 	num.officer = {}
 	num.officer.n = 3
+	
+	num.remoteness = {}
+	num.remoteness.settlement = 3
+	num.remoteness.danger = 5
 
 
 func init_dict() -> void:
@@ -192,6 +197,31 @@ func init_region() -> void:
 	dict.region.direction.nw = Vector2(1, 1)
 
 
+func init_danger() -> void:
+	dict.danger = {}
+	dict.danger.rank = {}
+	var remoteness = -1
+	var k = 3
+	
+	for rank in 6:
+		#var index = color.danger.keys().find(danger)
+		dict.danger.rank[rank] = []
+		
+		for _i in k:
+			dict.danger.rank[rank].append(int(remoteness))
+			remoteness += 1
+	
+	#dict.danger.rank.common.append(0)
+	#dict.danger.rank.common.sort()
+	#dict.danger.rank.common.erase(2)
+	#dict.danger.rank.uncommon.append(2)
+	#dict.danger.rank.uncommon.sort()
+	
+	while remoteness < 20:
+		dict.danger.rank[5].append(int(remoteness))
+		remoteness += 1
+
+
 func init_emptyjson() -> void:
 	dict.emptyjson = {}
 	dict.emptyjson.title = {}
@@ -227,6 +257,9 @@ func init_scene() -> void:
 	scene.area = load("res://scene/4/area.tscn")
 	scene.trail = load("res://scene/4/trail.tscn")
 	scene.region = load("res://scene/4/region.tscn")
+	scene.settlement = load("res://scene/4/settlement.tscn")
+	scene.biome = load("res://scene/4/biome.tscn")
+	
 
 
 func init_vec():
@@ -274,6 +307,22 @@ func init_color():
 	color.region.sw = Color.from_hsv(144 / h, 0.9, 0.9)
 	color.region.nw = Color.from_hsv(216 / h, 0.9, 0.9)
 	color.region.nesw = Color.from_hsv(288 / h, 0.9, 0.9)
+	
+	color.biome = {}
+	color.biome.swamp = Color.from_hsv(67 / h, 0.5, 0.45)
+	color.biome.forest = Color.from_hsv(124 / h, 0.5, 0.45)
+	color.biome.mountain = Color.from_hsv(204 / h, 0.5, 0.45)
+	color.biome.plain = Color.from_hsv(55 / h, 0.8, 0.8)
+	
+	color.danger = {}
+	color.danger[0] = Color.from_hsv(0 / h, 0.0, 0.5)
+	color.danger[1] = Color.from_hsv(120 / h, 0.9, 0.9)
+	color.danger[2] = Color.from_hsv(210 / h, 0.9, 0.9)
+	color.danger[3] = Color.from_hsv(270 / h, 0.9, 0.9)
+	color.danger[4] = Color.from_hsv(0 / h, 0.9, 0.9)
+	color.danger[5] = Color.from_hsv(30 / h, 0.9, 0.9)
+	
+	init_danger()
 
 
 func init_font():

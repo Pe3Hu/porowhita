@@ -42,6 +42,7 @@ theme_override_constants/separation = 0
 alignment = 1
 
 [node name="Moon" parent="HBox/VBox" instance=ExtResource("2_2t0bn")]
+visible = false
 layout_mode = 2
 
 [node name="HBox" type="HBoxContainer" parent="HBox/VBox"]

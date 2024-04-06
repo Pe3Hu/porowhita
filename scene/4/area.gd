@@ -10,6 +10,11 @@ var neighbors = {}
 var trails = {}
 var directions = {}
 var region = null
+var remoteness = {}
+var settlement = null
+var isolations = []
+var biome = null
+var danger = null
 #endregion
 
 
@@ -23,12 +28,23 @@ func set_attributes(input_: Dictionary) -> void:
 
 func init_basic_setting() -> void:
 	if grid != null:
+		grid.x = int(grid.x)
+		grid.y = int(grid.y)
 		position = grid * Global.vec.size.area
 		mainland.grids[grid] = self
 		init_index()
 		#set_regions()
 
 	set_vertexs()
+	set_remoteness()
+
+
+func init_index() -> void:
+	var input = {}
+	input.type = "number"
+	input.subtype = Global.num.index.area
+	index.set_attributes(input)
+	Global.num.index.area += 1
 
 
 func set_vertexs() -> void:
@@ -44,12 +60,11 @@ func set_vertexs() -> void:
 	set_polygon(vertexs)
 
 
-func init_index() -> void:
-	var input = {}
-	input.type = "number"
-	input.subtype = Global.num.index.area
-	index.set_attributes(input)
-	Global.num.index.area += 1
+func set_remoteness() -> void:
+	var x = abs(Global.num.area.col / 2 - grid.x)
+	var y = abs(Global.num.area.row / 2 - grid.y)
+	remoteness.center = x + y
+	remoteness.settlement = null
 
 
 func set_region(region_: Node2D) -> void:
@@ -59,11 +74,20 @@ func set_region(region_: Node2D) -> void:
 	region = region_
 	region.areas.append(self)
 	
-	#paint_to_match()
+	paint_to_match("region")
 
 
-func paint_to_match() -> void:
-	color = Global.color.region[region.type]
+func paint_to_match(layer_: String) -> void:
+	match layer_:
+		"region":
+			color = Global.color.region[region.type]
+		"biome":
+			color = Global.color.biome[biome.type]
+		"wilderness":
+			var v = 1 - float(remoteness.settlement) / Global.num.remoteness.danger
+			color = Color.from_hsv(0, 0, v)
+		"danger":
+			color = Global.color.danger[danger]
 #endregion
 
 

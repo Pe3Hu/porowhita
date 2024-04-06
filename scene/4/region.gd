@@ -5,6 +5,7 @@ extends Node2D
 var mainland = null
 var type = null
 var areas = []
+var settlements = []
 #endregion
 
 

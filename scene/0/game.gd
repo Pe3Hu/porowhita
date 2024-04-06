@@ -19,3 +19,4 @@ func _input(event) -> void:
 				if event.is_pressed() && !event.is_echo():
 					var planet = sketch.universe.planets.get_child(0)
 					planet.moon.follow_phase()
+
