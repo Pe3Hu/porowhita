@@ -18,7 +18,6 @@ func _ready() -> void:
 	init_vec()
 	init_color()
 	init_dict()
-	init_node()
 	init_scene()
 	init_font()
 
@@ -28,6 +27,8 @@ func init_arr() -> void:
 	arr.indicator = ["health"]
 	arr.region = ["ne", "se", "sw", "nw", "nesw"]
 	arr.terrain = ["swamp", "forest", "mountain", "plain"]
+	arr.age = ["newborn", "adolescent", "mature", "ancient", "primordial", "forgotten"]
+	arr.rank = ["f", "e", "d", "c", "b", "a", "s"]
 
 
 func init_num() -> void:
@@ -55,6 +56,12 @@ func init_num() -> void:
 	num.remoteness = {}
 	num.remoteness.settlement = 3
 	num.remoteness.danger = 5
+	
+	num.omen = {}
+	num.omen.r = 16
+	num.omen.n = 6
+	num.omen.corner = 4
+	num.omen.aspect = 3
 
 
 func init_dict() -> void:
@@ -64,6 +71,11 @@ func init_dict() -> void:
 	init_area()
 	init_corner()
 	init_region()
+	
+	init_monster()
+	init_danger()
+	init_growth()
+	init_age()
 
 
 func init_neighbor() -> void:
@@ -197,50 +209,128 @@ func init_region() -> void:
 	dict.region.direction.nw = Vector2(1, 1)
 
 
+func init_monster() -> void:
+	dict.monster = {}
+	dict.monster.embodiment = {}
+	dict.monster.biome = {}
+	#dict.monster.fraction = {}
+	
+	var path = "res://asset/json/porowhita_monster.json"
+	var array = load_data(path)
+	var exceptions = ["embodiment", "fraction", "biome"]
+	
+	for monster in array:
+		var data = {}
+		data.aspect = []
+		data.trait = []
+		
+		for key in monster:
+			if !exceptions.has(key):
+				if arr.aspect.has(key):
+					data.aspect.append(key)
+				else:
+					data.trait.append(key)
+		
+		if !dict.monster.biome.has(monster.biome):
+			dict.monster.biome[monster.biome] = []
+		
+		data.order = dict.monster.biome[monster.biome].size()
+		data.fraction = monster.fraction
+		dict.monster.embodiment[monster.embodiment] = data
+		
+		dict.monster.biome[monster.biome].append(monster.embodiment)
+
+
 func init_danger() -> void:
 	dict.danger = {}
+	dict.danger.age = {}
 	dict.danger.rank = {}
+	
+	var path = "res://asset/json/porowhita_danger.json"
+	var array = load_data(path)
+	
+	for danger in array:
+		danger.value = int(danger.value)
+		var data = {}
+		data.age = {}
+		data.rank = {}
+		
+		for key in danger:
+			if danger[key] > 0:
+				if arr.age.has(key):
+					data.age[key] = danger[key]
+				
+				if arr.rank.has(key):
+					data.rank[key] = danger[key]
+		
+		for key in data:
+			if !dict.danger[key].has(danger.value):
+				dict.danger[key][danger.value] = {}
+			
+			dict.danger[key][danger.value] = data[key]
+	
+	dict.danger.remoteness = {}
 	var remoteness = -1
 	var k = 3
 	
 	for rank in 6:
 		#var index = color.danger.keys().find(danger)
-		dict.danger.rank[rank] = []
+		dict.danger.remoteness[rank] = []
 		
 		for _i in k:
-			dict.danger.rank[rank].append(int(remoteness))
+			dict.danger.remoteness[rank].append(int(remoteness))
 			remoteness += 1
 	
-	#dict.danger.rank.common.append(0)
-	#dict.danger.rank.common.sort()
-	#dict.danger.rank.common.erase(2)
-	#dict.danger.rank.uncommon.append(2)
-	#dict.danger.rank.uncommon.sort()
-	
 	while remoteness < 20:
-		dict.danger.rank[5].append(int(remoteness))
+		dict.danger.remoteness[5].append(int(remoteness))
 		remoteness += 1
 
 
-func init_emptyjson() -> void:
-	dict.emptyjson = {}
-	dict.emptyjson.title = {}
+func init_age() -> void:
+	dict.age = {}
+	dict.age.month = {}
 	
-	var path = "res://asset/json/.json"
+	for age in arr.age:
+		var index = arr.age.find(age)
+		dict.age.month[age] = {}
+		dict.age.month[age].min = pow(index + 1, 2)
+		dict.age.month[age].max = pow(index + 2, 2) - 1
+	
+	dict.mount = {}
+	dict.mount.age = {}
+	var ages = []
+	var age = arr.age.front()
+	
+	for mount in dict.age.month.forgotten.max:
+		mount = int(mount)
+		dict.mount.age[mount] = []
+		
+		if mount == dict.age.month[age].min:
+			ages.append(age)
+			var index = arr.age.find(age) + 1
+			
+			if index < arr.age.size():
+				age = arr.age[index]
+		
+		dict.mount.age[mount].append_array(ages)
+
+
+func init_growth() -> void:
+	dict.growth = {}
+	dict.growth.rank = {}
+	
+	var path = "res://asset/json/porowhita_growth.json"
 	var array = load_data(path)
+	var exceptions = ["rank"]
 	
-	for emptyjson in array:
+	for growth in array:
 		var data = {}
 		
-		for key in emptyjson:
-			if key != "title":
-				data[key] = emptyjson[key]
+		for key in growth:
+			if !exceptions.has(key):
+				data[key] = growth[key]
 		
-		dict.emptyjson.title[emptyjson.title] = data
-
-
-func init_node() -> void:
-	node.game = get_node("/root/Game")
+		dict.growth.rank[growth.rank] = data
 
 
 func init_scene() -> void:
@@ -257,8 +347,12 @@ func init_scene() -> void:
 	scene.area = load("res://scene/4/area.tscn")
 	scene.trail = load("res://scene/4/trail.tscn")
 	scene.region = load("res://scene/4/region.tscn")
-	scene.settlement = load("res://scene/4/settlement.tscn")
 	scene.biome = load("res://scene/4/biome.tscn")
+	
+	scene.settlement = load("res://scene/5/settlement.tscn")
+	scene.community = load("res://scene/5/community.tscn")
+	scene.borderland = load("res://scene/5/borderland.tscn")
+	scene.monster = load("res://scene/5/monster.tscn")
 	
 
 
@@ -267,13 +361,17 @@ func init_vec():
 	vec.size.sixteen = Vector2(16, 16)
 	vec.size.number = Vector2(vec.size.sixteen)
 	
-	vec.size.token = Vector2(64, 64)
+	vec.size.token = Vector2(32, 32)
 	vec.size.card = Vector2(vec.size.token.x * 2, vec.size.token.y * 4)
 	vec.size.bar = Vector2(128, 16)
 	vec.size.gameboard = Vector2(vec.size.token)# * 6, vec.size.token.y * 5)
 	
 	vec.size.area = Vector2(48, 48)
 	vec.size.mainland = (Vector2(Global.num.area.col, Global.num.area.row) - Vector2.ONE) * vec.size.area + Vector2.ONE * num.area.r * 2
+	
+	vec.size.index = vec.size.area * 0.5
+	vec.size.omen = Vector2.ONE * num.omen.r * 2
+	
 	
 	init_window_size()
 
@@ -314,15 +412,29 @@ func init_color():
 	color.biome.mountain = Color.from_hsv(204 / h, 0.5, 0.45)
 	color.biome.plain = Color.from_hsv(55 / h, 0.8, 0.8)
 	
+	color.resource = {}
+	color.resource.ashe = Color.from_hsv(133 / h, 0.56, 0.40)
+	color.resource.blood = Color.from_hsv(355 / h, 0.64, 0.95)
+	color.resource.ether = Color.from_hsv(211 / h, 0.1, 0.77)
+	color.resource.sulphur = Color.from_hsv(36 / h, 0.7, 0.34)
+	
 	color.danger = {}
 	color.danger[0] = Color.from_hsv(0 / h, 0.0, 0.5)
 	color.danger[1] = Color.from_hsv(120 / h, 0.9, 0.9)
 	color.danger[2] = Color.from_hsv(210 / h, 0.9, 0.9)
 	color.danger[3] = Color.from_hsv(270 / h, 0.9, 0.9)
-	color.danger[4] = Color.from_hsv(0 / h, 0.9, 0.9)
-	color.danger[5] = Color.from_hsv(30 / h, 0.9, 0.9)
+	color.danger[4] = Color.from_hsv(30 / h, 0.9, 0.9)
+	color.danger[5] = Color.from_hsv(0 / h, 0.9, 0.9)
 	
-	init_danger()
+	color.aspect = {}
+	#color.aspect.strength = Color.from_hsv(0 / h, 0.75, 1.0)
+	#color.aspect.dexterity = Color.from_hsv(167 / h, 0.85, 0.75)
+	#color.aspect.intellect = Color.from_hsv(210 / h, 0.85, 1.0)
+	#color.aspect.will = Color.from_hsv(35 / h, 1.0, 1.0)
+	color.aspect.strength = Color.from_hsv(0 / h, 0.9, 0.9)
+	color.aspect.dexterity = Color.from_hsv(120 / h, 0.9, 0.9)
+	color.aspect.intellect = Color.from_hsv(210 / h, 0.9, 0.9)
+	color.aspect.will = Color.from_hsv(30 / h, 0.9, 0.9)
 
 
 func init_font():

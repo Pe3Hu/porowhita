@@ -6,7 +6,7 @@ extends MarginContainer
 @onready var discharged = $VBox/Cards/Discharged
 @onready var broken = $VBox/Cards/Broken
 @onready var hand = $VBox/Cards/Hand
-@onready var storage = $VBox/Storage
+@onready var nucleus = $VBox/Nucleus
 
 var god = null
 var capacity = {}
@@ -16,7 +16,6 @@ var capacity = {}
 #region init
 func set_attributes(input_: Dictionary) -> void:
 	god = input_.god
-	input_.gameboard = self
 	
 	init_basic_setting(input_)
 
@@ -27,9 +26,11 @@ func init_basic_setting(input_: Dictionary) -> void:
 	capacity.current = int(capacity.limit)
 	
 	var input = {}
-	input.gameboard = self
-	storage.set_attributes(input_)
+	input.proprietor = self
+	input.priorities = {}
+	nucleus.set_attributes(input)
 	init_starter_kit_cards()
+	input_.gameboard = self
 	
 	for key in Global.dict.area.next:
 		if key != null:
@@ -116,7 +117,7 @@ func discard_hand() -> void:
 	hand.advance_all_cards()
 
 
-func fill_storage() -> void:
+func fill_nucleus() -> void:
 	for card in hand.cards.get_children():
 		for aspect in card.aspects.get_children():
-			storage.obtain_aspect(aspect)
+			nucleus.obtain_aspect(aspect)

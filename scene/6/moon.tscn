@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dvdcoeutm1eo6"]
 
-[ext_resource type="Script" path="res://scene/5/moon.gd" id="1_lf2ds"]
+[ext_resource type="Script" path="res://scene/6/moon.gd" id="1_lf2ds"]
 [ext_resource type="PackedScene" uid="uid://cijfgbdi8yqwa" path="res://scene/0/token.tscn" id="2_tupaf"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7paps"]

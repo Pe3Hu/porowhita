@@ -32,17 +32,18 @@ func init_basic_setting() -> void:
 		grid.y = int(grid.y)
 		position = grid * Global.vec.size.area
 		mainland.grids[grid] = self
-		init_index()
-		#set_regions()
+		init_tokens()
 
 	set_vertexs()
 	set_remoteness()
 
 
-func init_index() -> void:
+func init_tokens() -> void:
 	var input = {}
-	input.type = "number"
-	input.subtype = Global.num.index.area
+	input.proprietor = self
+	input.type = "index"
+	input.subtype = "trail"
+	input.value = Global.num.index.area
 	index.set_attributes(input)
 	Global.num.index.area += 1
 
@@ -56,8 +57,13 @@ func set_vertexs() -> void:
 	for corner in corners:
 		var vertex = Global.dict.corner.vector[corners][order][corner] * r
 		vertexs.append(vertex)
+		index.position += vertex
 
 	set_polygon(vertexs)
+	
+	index.position /= corners
+	index.position.x -= index.size.x * 0.5
+	index.position.y -= index.size.y * 0.5
 
 
 func set_remoteness() -> void:

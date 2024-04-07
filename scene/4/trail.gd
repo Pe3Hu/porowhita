@@ -20,15 +20,17 @@ func set_attributes(input_: Dictionary) -> void:
 
 
 func init_basic_setting() -> void:
-	init_index()
+	init_tokens()
 	set_vertexs()
 	#advance_status()
 
 
-func init_index() -> void:
+func init_tokens() -> void:
 	var input = {}
-	input.type = "number"
-	input.subtype = Global.num.index.trail
+	input.proprietor = self
+	input.type = "index"
+	input.subtype = "trail"
+	input.value = Global.num.index.trail
 	index.set_attributes(input)
 	Global.num.index.trail += 1
 

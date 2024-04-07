@@ -1,10 +1,14 @@
 [gd_scene load_steps=3 format=3 uid="uid://go3djoslxcbd"]
 
 [ext_resource type="Script" path="res://scene/4/area.gd" id="1_5dsnu"]
-[ext_resource type="PackedScene" uid="uid://ciw38iqel0v5a" path="res://scene/0/icon.tscn" id="2_yyqc1"]
+[ext_resource type="PackedScene" uid="uid://cijfgbdi8yqwa" path="res://scene/0/token.tscn" id="2_8aaiq"]
 
 [node name="Area" type="Polygon2D"]
 script = ExtResource("1_5dsnu")
 
-[node name="Index" parent="." instance=ExtResource("2_yyqc1")]
+[node name="Index" parent="." instance=ExtResource("2_8aaiq")]
 visible = false
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 5.0
+offset_bottom = 5.0

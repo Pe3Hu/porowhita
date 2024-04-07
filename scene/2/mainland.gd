@@ -5,10 +5,10 @@ extends MarginContainer
 @onready var areas = $Areas
 @onready var trails = $Trails
 @onready var regions = $Regions
-@onready var settlements = $Settlements
 @onready var biomes = $Biomes
 
 var planet = null
+var policy = null
 var grids = {}
 var dangers = {}
 #endregion
@@ -22,12 +22,15 @@ func set_attributes(input_: Dictionary) -> void:
 
 
 func init_basic_setting() -> void:
+	policy = planet.policy
 	init_offsets()
 	init_areas()
 	init_trails()
 	init_regions()
 	init_settlements()
 	init_biomes()
+	policy.init_communities()
+	paint_areas("biome")
 
 
 func init_offsets() -> void:
@@ -295,11 +298,11 @@ func find_area_for_settlement(options_: Dictionary) -> void:
 
 func add_settlement(area_: Polygon2D) -> void:
 	var input = {}
-	input.mainland = self
+	input.policy = policy
 	input.area = area_
 	
 	var settlement = Global.scene.settlement.instantiate()
-	settlements.add_child(settlement)
+	policy.settlements.add_child(settlement)
 	settlement.set_attributes(input)
 
 
@@ -334,7 +337,6 @@ func init_biomes() -> void:
 	redistribute_disputed_araes()
 	update_areas_wilderness()
 	update_areas_danger()
-	paint_areas("danger")
 
 
 func add_biome(type_: String, area_: Polygon2D) -> void:
@@ -448,12 +450,12 @@ func update_areas_danger() -> void:
 				remoteness += _area.remoteness.settlement
 		
 		var types = []
-		types.append_array(Global.dict.danger.rank.keys())
+		types.append_array(Global.dict.danger.remoteness.keys())
 		
 		while area.danger == null:
 			var danger = types.pop_front()
 			
-			if Global.dict.danger.rank[danger].has(remoteness):
+			if Global.dict.danger.remoteness[danger].has(remoteness):
 				area.danger = int(danger)
 				
 				if !datas.has(danger):
@@ -461,7 +463,7 @@ func update_areas_danger() -> void:
 				
 				datas[danger].append(area)
 	
-	for danger in Global.dict.danger.rank:
+	for danger in Global.dict.danger.remoteness:
 		if datas.has(danger):
 			dangers[danger] = datas[danger]
 	
@@ -486,8 +488,10 @@ func get_area_based_on_grid(grid_: Vector2) -> Variant:
 		return grids[grid_]
 	
 	return null
+#endregion
 
 
+#region paint
 func paint_areas(layer_: String) -> void:
 	reset_areas_color()
 	

@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://xhix36lasfwv"]
+[gd_scene load_steps=6 format=3 uid="uid://xhix36lasfwv"]
 
 [ext_resource type="Script" path="res://scene/2/planet.gd" id="1_ictb4"]
-[ext_resource type="PackedScene" uid="uid://dvdcoeutm1eo6" path="res://scene/5/moon.tscn" id="2_2t0bn"]
+[ext_resource type="PackedScene" uid="uid://dvdcoeutm1eo6" path="res://scene/6/moon.tscn" id="2_2t0bn"]
 [ext_resource type="PackedScene" uid="uid://cyy4x4c3v4kno" path="res://scene/2/mainland.tscn" id="2_7t4ix"]
+[ext_resource type="PackedScene" uid="uid://c6m1b4wqr3v3l" path="res://scene/5/policy.tscn" id="3_i0x4a"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7paps"]
 
@@ -34,6 +35,9 @@ theme_override_constants/separation = 0
 alignment = 1
 
 [node name="Mainland" parent="HBox" instance=ExtResource("2_7t4ix")]
+layout_mode = 2
+
+[node name="Policy" parent="HBox" instance=ExtResource("3_i0x4a")]
 layout_mode = 2
 
 [node name="VBox" type="VBoxContainer" parent="HBox"]

@@ -1,0 +1,44 @@
+[
+ {
+  "rank": "f",
+  "mouth": 1,
+  "age": 1,
+  "birth": 28
+ },
+ {
+  "rank": "e",
+  "mouth": 2,
+  "age": 1,
+  "birth": 21
+ },
+ {
+  "rank": "d",
+  "mouth": 3,
+  "age": 2,
+  "birth": 15
+ },
+ {
+  "rank": "c",
+  "mouth": 4,
+  "age": 3,
+  "birth": 10
+ },
+ {
+  "rank": "b",
+  "mouth": 5,
+  "age": 5,
+  "birth": 6
+ },
+ {
+  "rank": "a",
+  "mouth": 6,
+  "age": 8,
+  "birth": 3
+ },
+ {
+  "rank": "s",
+  "mouth": 7,
+  "age": 13,
+  "birth": 1
+ }
+]

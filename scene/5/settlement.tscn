@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://f265tp8bnwp5"]
+
+[ext_resource type="Script" path="res://scene/5/settlement.gd" id="1_i4qt2"]
+[ext_resource type="PackedScene" uid="uid://cijfgbdi8yqwa" path="res://scene/0/token.tscn" id="2_xjhan"]
+
+[node name="Settlement" type="MarginContainer"]
+script = ExtResource("1_i4qt2")
+
+[node name="Index" parent="." instance=ExtResource("2_xjhan")]
+layout_mode = 2

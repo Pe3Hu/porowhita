@@ -5,6 +5,7 @@ extends MarginContainer
 @onready var hbox = $HBox/VBox/HBox
 @onready var moon = $HBox/VBox/Moon
 @onready var mainland = $HBox/Mainland
+@onready var policy = $HBox/Policy
 
 var universe = null
 var gods = []
@@ -23,6 +24,7 @@ func init_basic_setting() -> void:
 	var input = {}
 	input.planet = self
 	moon.set_attributes(input)
+	policy.set_attributes(input)
 	mainland.set_attributes(input)
 
 

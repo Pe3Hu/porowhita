@@ -32,6 +32,4 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_7paps")
 
 [node name="Regions" type="Node2D" parent="."]
 
-[node name="Settlements" type="Node2D" parent="."]
-
 [node name="Biomes" type="Node2D" parent="."]

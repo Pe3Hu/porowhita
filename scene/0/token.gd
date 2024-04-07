@@ -22,7 +22,15 @@ func set_attributes(input_: Dictionary) -> void:
 
 
 func init_basic_setting(input_: Dictionary) -> void:
-	custom_minimum_size = Vector2(Global.vec.size.token)
+	var exceptions = ["index"]
+	
+	if exceptions.has(type):
+		custom_minimum_size = Vector2(Global.vec.size[type])
+		size = custom_minimum_size
+		designation.visible = false
+	else:
+		custom_minimum_size = Vector2(Global.vec.size.token)
+	
 	var input = {}
 	input.type = type
 	input.subtype = subtype
@@ -47,6 +55,20 @@ func init_basic_setting(input_: Dictionary) -> void:
 	
 	if !input_.has("value"):
 		value.visible = false
+
+
+func init_bg() -> void:
+	var style = StyleBoxFlat.new()
+	style.bg_color = Color.SLATE_GRAY
+	bg.set("theme_override_styles/panel", style)
+
+
+func set_bg_color(color_: Color) -> void:
+	var style = bg.get("theme_override_styles/panel")
+	style.bg_color = color_
+	
+	if !bg.visible:
+		bg.visible = true
 #endregion
 
 

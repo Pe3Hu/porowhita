@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://0tn0da7lk6fm"]
+
+[ext_resource type="Script" path="res://scene/5/borderland.gd" id="1_qhl4s"]
+[ext_resource type="PackedScene" uid="uid://cijfgbdi8yqwa" path="res://scene/0/token.tscn" id="2_mvfn1"]
+
+[node name="Borderland" type="MarginContainer"]
+script = ExtResource("1_qhl4s")
+
+[node name="HBox" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Index" parent="HBox" instance=ExtResource("2_mvfn1")]
+layout_mode = 2
+
+[node name="Monsters" type="HBoxContainer" parent="HBox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1

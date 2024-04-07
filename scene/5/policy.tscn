@@ -1,10 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://blhi7tynl43q1"]
+[gd_scene load_steps=3 format=3 uid="uid://c6m1b4wqr3v3l"]
 
-[ext_resource type="Script" path="res://scene/5/storage.gd" id="1_6jpld"]
+[ext_resource type="Script" path="res://scene/5/policy.gd" id="1_6fr2o"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7paps"]
 
-[node name="Storage" type="MarginContainer"]
+[node name="Policy" type="MarginContainer"]
 custom_minimum_size = Vector2(5, 5)
 anchors_preset = 8
 anchor_left = 0.5
@@ -19,14 +19,24 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-script = ExtResource("1_6jpld")
+script = ExtResource("1_6fr2o")
 
 [node name="BG" type="Panel" parent="."]
 visible = false
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_7paps")
 
-[node name="Aspects" type="HBoxContainer" parent="."]
+[node name="HBox" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Settlements" type="VBoxContainer" parent="HBox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Communities" type="VBoxContainer" parent="HBox"]
 layout_mode = 2
 theme_override_constants/separation = 0
 alignment = 1
